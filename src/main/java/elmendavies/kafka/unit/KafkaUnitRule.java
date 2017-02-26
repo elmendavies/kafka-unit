@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package info.batey.kafka.unit;
+package elmendavies.kafka.unit;
 
 import org.junit.rules.ExternalResource;
 
@@ -46,7 +46,11 @@ public class KafkaUnitRule extends ExternalResource {
 
     @Override
     protected void after() {
-        kafkaUnit.shutdown();
+        try {
+			kafkaUnit.shutdown();
+		} catch (IOException e) {
+			throw new RuntimeException(e.getMessage(), e.getCause());
+		}
     }
 
     public int getZkPort() {
